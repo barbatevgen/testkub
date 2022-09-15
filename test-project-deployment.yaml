@@ -1,0 +1,65 @@
+# Source: openresty-art/templates/configmap-conf.yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: apache-index-configmap
+  labels:
+    app: apache
+data:
+  index.php: |
+    <?php
+    $dbconn = pg_connect("host=postgres port=5432 dbname=postgresdb user=admin password=psltest");
+    //connect to a database named "postgres" on the host "host" with a username and password
+    if (!$dbconn){
+    echo "<center><h1>Doesn't work (=(</h1></center>";
+    }else
+    echo "<center><h1>Good connection from dns</h1></center>";
+    pg_close($dbconn);
+    ?>
+  db.php: |
+    <?php
+    $host        = "host = 192.168.11.94";
+    $port        = "port = 5432";
+    $dbname      = "dbname = postgresdb";
+    $credentials = "user = admin password=psltest";
+
+    $db = pg_connect( "$host $port $dbname $credentials"  );
+    if(!$db) {
+       echo "Error : Unable to open database\n";
+    } else {
+       echo "Opened database successfully\n";
+    }
+    ?>
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apache-deployment
+  labels:
+    app: apache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apache
+  template:
+    metadata:
+      labels:
+        service: select               # from sevice
+        app    : apache
+    spec:
+      containers:
+      - name: apache
+        image: ebarbat/test:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+            - name: apache-index-file
+              mountPath: /var/www/html/
+
+      volumes:
+      - name: apache-index-file
+        configMap:
+          name: apache-index-configmap
