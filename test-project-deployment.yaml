@@ -18,18 +18,16 @@ data:
     ?>
   db.php: |
     <?php
-    $host        = "host = 192.168.11.94";
-    $port        = "port = 5432";
-    $dbname      = "dbname = postgresdb";
-    $credentials = "user = admin password=psltest";
+    include '/etc/secret/postgres-username';
+    $dbconn = pg_connect("host=postgres port=5432 dbname=postgresdb user=$SECRET_USERNAME password=$SECRET_PASSWORD");
+    //connect to a database named "postgres" on the host "host" with a username and password
+    if (!$dbconn){
+    echo "<center><h1>Doesn't work from secrets(=(</h1></center>";
+    }else
+    echo "<center><h1>Good connection from secrets</h1></center>";
+    pg_close($dbconn);
 
-    $db = pg_connect( "$host $port $dbname $credentials"  );
-    if(!$db) {
-       echo "Error : Unable to open database\n";
-    } else {
-       echo "Opened database successfully\n";
-    }
-    ?>
+
 
 
 ---
@@ -55,10 +53,27 @@ spec:
         image: ebarbat/test:latest
         ports:
         - containerPort: 80
+        env:
+         - name: SECRET_USERNAME
+           valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: username
+              optional: false # same as default; "mysecret" must exist
+                              # and include a key named "username"
+         - name: SECRET_PASSWORD
+           valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: password
+              optional: false # same as default; "mysecret" must exist
+                              # and include a key named "password"
+
+
+
         volumeMounts:
             - name: apache-index-file
               mountPath: /var/www/html/
-
       volumes:
       - name: apache-index-file
         configMap:
