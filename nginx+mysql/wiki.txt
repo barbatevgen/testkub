@@ -1,1 +1,5 @@
 minikube start --nodes 3 -p eb-test
+minikube stop
+minikube delete
+
+ minikube addon enable metrics-server -p eb-test
