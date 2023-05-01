@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: write-deployment
+  labels:
+    app: write
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: write
+  template:
+    metadata:
+      labels:
+        app: write
+    spec:
+      containers:
+      - name: nginx-write
+        image: ebarbat/test:nginxWrite
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 80
+        - containerPort: 443
