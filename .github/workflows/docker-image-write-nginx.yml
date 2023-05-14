@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v1
     - name: Build the Docker image
       run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:nginxWrite
       
     - name: Push to Docker Hub
-        uses: docker/build-push-action@v1 # Info: https://github.com/docker/build-push-action/tree/releases/v1#tags
+        uses: docker/build-push-action@v2 # Info: https://github.com/docker/build-push-action/tree/releases/v1#tags
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
