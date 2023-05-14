@@ -19,23 +19,21 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-        with:
-          images: ebarbat/test
+
           
       - name: Build the Docker image
         run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:nginxWrite
+      
       - name: Docker meta
         id: meta
-        #uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
           images: ebarbat/test:nginxWrite
           # generate Docker tags based on the following events/attributes
           tags: |
             type=sha
+      
       - name: Build the Docker image
         run: docker push ebarbat/test:${{ steps.meta.outputs.tags }}   #nginxWrite
           
