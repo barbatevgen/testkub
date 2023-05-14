@@ -27,9 +27,17 @@ jobs:
           
       - name: Build the Docker image
         run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:nginxWrite
-
+      - name: Docker meta
+        id: meta
+        #uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: ebarbat/test:nginxWrite
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=sha
       - name: Build the Docker image
-        run: docker push ebarbat/test:${{docker inspect --format='{{index .RepoDigests 0}}' ebarbat/test:nginxWrite}}    #nginxWrite
+        run: docker push ebarbat/test:${{ steps.meta.outputs.tags }}   #nginxWrite
           
           
           
