@@ -20,14 +20,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           
-      - name: Build and push Docker image
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: nginxWrite
-    #      labels: ${{ steps.meta.outputs.labels }}
+      - name: Build the Docker image
+        run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:nginxWrite
+
+      - name: Build the Docker image
+        run: docker push ebarbat/test:nginxWrite
           
           
           
