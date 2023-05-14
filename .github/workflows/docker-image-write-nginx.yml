@@ -29,7 +29,7 @@ jobs:
         run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:nginxWrite
 
       - name: Build the Docker image
-        run: docker push ebarbat/test:nginxWrite
+        run: docker push ebarbat/test:${{org.opencontainers.image.revision}}    #nginxWrite
           
           
           
