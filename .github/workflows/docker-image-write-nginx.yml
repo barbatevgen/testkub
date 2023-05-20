@@ -22,22 +22,12 @@ jobs:
 
           
       - name: Build the Docker image
-        run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:nginxWrite
+        run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:$(date +'%Y-%m-%dT%H')
       
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          # list of Docker images to use as base name for tags
-          images: ebarbat/test:nginxWrite
-          # generate Docker tags based on the following events/attributes
-          tags: |
-            type=sha
-      - name: Set current date as env variable
-        run: echo "NOW=$(date +'%Y-%m-%dT%H:%M')" >> $GITHUB_ENV
+
         
       - name: Build the Docker image
-        run: docker push ebarbat/test:$(date +'%Y-%m-%dT%H:%M')  #nginxWrite
+        run: docker push ebarbat/test:$(date +'%Y-%m-%dT%H')  #nginxWrite
           
           
           
