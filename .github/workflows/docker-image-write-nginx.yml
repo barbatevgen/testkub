@@ -22,14 +22,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-          
+      - name: set release date
+        run: |
+            echo "time=$(date --rfc-3339=date)" >> ${GITHUB_ENV}
+            
       - name: Build the Docker image
-        run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:$DAY_OF_WEEK
+        run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:$time
   
 
         
       - name: Build the Docker image
-        run: docker push ebarbat/test:$DAY_OF_WEEK  #nginxWrite
+        run: docker push ebarbat/test:$time  #nginxWrite
           
           
           
