@@ -6,8 +6,8 @@ on:
   pull_request:
     branches: [ "main" ]
 env:
-  tttest: (date +'%Y-%m-%dT:%H:%M:%S')
-  
+  #tttest: (date +'%Y-%m-%dT:%H:%M:%S')
+  DAY_OF_WEEK: Monday
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -24,12 +24,12 @@ jobs:
 
           
       - name: Build the Docker image
-        run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:$tttest
+        run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:$DAY_OF_WEEK
   
 
         
       - name: Build the Docker image
-        run: docker push ebarbat/test:$tttest  #nginxWrite
+        run: docker push ebarbat/test:$DAY_OF_WEEK  #nginxWrite
           
           
           
