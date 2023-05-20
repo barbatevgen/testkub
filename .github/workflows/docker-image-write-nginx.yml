@@ -24,7 +24,7 @@ jobs:
 
       - name: set release date
         run: |
-            echo "time=$(date +'%Y-%m-%dT:%H:%M:%S')" >> ${GITHUB_ENV}
+            echo "time=$(date +'%Y-%m-%dT-%H-%M-%S')" >> ${GITHUB_ENV}
 #            echo "time=$(date --rfc-3339=date)" >> ${GITHUB_ENV}
             
             
