@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "main" ]
 env:
-  tag: (date +'%Y-%m-%d:%H:%M:%S')
+  tttest: (date +'%Y-%m-%d:%H:%M:%S')
   
 jobs:
   push_to_registry:
@@ -24,12 +24,12 @@ jobs:
 
           
       - name: Build the Docker image
-        run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:$tag
+        run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:$tttest
   
 
         
       - name: Build the Docker image
-        run: docker push ebarbat/test:$tag  #nginxWrite
+        run: docker push ebarbat/test:$tttest  #nginxWrite
           
           
           
