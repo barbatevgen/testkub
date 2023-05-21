@@ -50,7 +50,21 @@ jobs:
             echo "        ports:" >> nginx+mysql/web-write-db.yaml
             echo "        - containerPort: 80" >> nginx+mysql/web-write-db.yaml
             echo "        - containerPort: 443 " >> nginx+mysql/web-write-db.yaml
+      
+      - name: ls -la
+        run: ls -la
         
+
+#      -  name: Commit files  
+#         run:
+#          git config --local user.name actions-user
+#          git config --local user.email "barbatevgen@gmail.com"
+#          if ! git diff --exit-code; then
+#              git add nginx+mysql/web-write-db.yaml
+#              git commit -am "change web-write-db.yaml "
+#              git push -f origin main
+#          fi
+          
       - name: Build the Docker image
         run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:$time
           
