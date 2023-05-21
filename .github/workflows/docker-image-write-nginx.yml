@@ -25,7 +25,8 @@ jobs:
             echo "time=$(date +'%Y-%m-%dT-%H-%M-%S')" >> ${GITHUB_ENV}
             
       - name: change web-write
-        run: tee -a nginx+mysql/web-write-db.yaml <<EOF
+        run: |
+tee -a nginx+mysql/web-write-db.yaml <<EOF
 
 apiVersion: apps/v1
 kind: Deployment
