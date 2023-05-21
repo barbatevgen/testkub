@@ -26,8 +26,7 @@ jobs:
             
       - name: change web-write
         run: |
-tee -a nginx+mysql/web-write-db.yaml <<EOF
-
+echo "
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -51,8 +50,7 @@ spec:
         imagePullPolicy: "Always"
         ports:
         - containerPort: 80
-        - containerPort: 443
-EOF
+        - containerPort: 443 " > nginx+mysql/web-write-db.yaml
         
       - name: Build the Docker image
         run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:$time
