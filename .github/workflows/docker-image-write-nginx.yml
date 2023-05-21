@@ -10,10 +10,7 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    steps:
-      - name: change web-write
-        run: ls -la
-        
+    steps:        
       - name: Check out the repo
         uses: actions/checkout@v3
       
@@ -27,6 +24,35 @@ jobs:
         run: |
             echo "time=$(date +'%Y-%m-%dT-%H-%M-%S')" >> ${GITHUB_ENV}
             
+      - name: change web-write
+        run: tee -a nginx+mysql/web-write-db.yaml <<EOF
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: write-deployment
+  labels:
+    app: write
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: write
+  template:
+    metadata:
+      labels:
+        app: write
+    spec:
+      containers:
+      - name: nginx-write
+        image: ebarbat/test:$time
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+EOF
+        
       - name: Build the Docker image
         run: docker build . --file nginx+mysql/write/Dockerfile --tag ebarbat/test:$time
           
