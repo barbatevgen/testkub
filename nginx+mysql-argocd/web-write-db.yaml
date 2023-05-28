@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx-write
-        image: ebarbat/test:2023-05-28T-21-18-15
+        image: ebarbat/test:2023-05-28T-21-19-33
         imagePullPolicy: "Always"
         ports:
         - containerPort: 80
